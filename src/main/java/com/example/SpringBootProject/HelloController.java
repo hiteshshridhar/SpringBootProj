@@ -10,6 +10,4 @@ public class HelloController {
     String Hello(){
         return "Hello World";
     }
-
-
 }
