@@ -1,8 +1,8 @@
 package com.example.SpringBootProject.controller;
 
-import com.example.SpringBootProject.DTO.ErrorResponseDTO;
-import com.example.SpringBootProject.DTO.TaskDTO;
-import com.example.SpringBootProject.DTO.UpdateTaskDTO;
+import com.example.SpringBootProject.DTO.errorDTO.ErrorResponseDTO;
+import com.example.SpringBootProject.DTO.taskDTO.TaskDTO;
+import com.example.SpringBootProject.DTO.taskDTO.UpdateTaskDTO;
 import com.example.SpringBootProject.entities.TaskEntity;
 import com.example.SpringBootProject.service.TaskService;
 import org.springframework.http.ResponseEntity;
@@ -14,16 +14,13 @@ import java.util.List;
 @RestController
 @RequestMapping("/tasks")
 public class TaskController {
-
     private final TaskService taskService;
-
     public TaskController(TaskService taskService) {
         this.taskService = taskService;
     }
 
     @GetMapping("")
-
-    public ResponseEntity <List<TaskEntity>> getTask(){
+    public ResponseEntity <List<TaskEntity>> getTasks(){
         var task = taskService.getTaskList();
         return ResponseEntity.ok(task);
     }

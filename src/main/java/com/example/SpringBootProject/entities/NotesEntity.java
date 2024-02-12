@@ -1,6 +1,11 @@
 package com.example.SpringBootProject.entities;
 
-public class NotesEntity extends Object {
+import lombok.Data;
 
+@Data
+public class NotesEntity {
+private String title;
+private int id;
+private String description;
 
 }

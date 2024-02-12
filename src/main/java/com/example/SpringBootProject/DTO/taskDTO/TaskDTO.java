@@ -1,4 +1,4 @@
-package com.example.SpringBootProject.DTO;
+package com.example.SpringBootProject.DTO.taskDTO;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

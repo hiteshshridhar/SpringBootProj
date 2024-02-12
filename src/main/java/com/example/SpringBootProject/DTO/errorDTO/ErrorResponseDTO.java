@@ -1,4 +1,4 @@
-package com.example.SpringBootProject.DTO;
+package com.example.SpringBootProject.DTO.errorDTO;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

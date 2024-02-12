@@ -1,7 +1,6 @@
 package com.example.SpringBootProject.service;
 
-import com.example.SpringBootProject.DTO.TaskDTO;
-import com.example.SpringBootProject.DTO.UpdateTaskDTO;
+import com.example.SpringBootProject.DTO.taskDTO.UpdateTaskDTO;
 import com.example.SpringBootProject.entities.TaskEntity;
 import lombok.Getter;
 import org.springframework.stereotype.Service;
@@ -13,10 +12,9 @@ import java.util.ArrayList;
 @Service
 public class TaskService {
     private int taskId = 1;
-    @Getter
-    private ArrayList <TaskEntity> taskList = new ArrayList<>();
-    private SimpleDateFormat deadlineFormatter = new SimpleDateFormat("yyyy-mm-dd");
-    private SimpleDateFormat createDateFormatter = new SimpleDateFormat("yyyy-mm-dd");
+    private final ArrayList <TaskEntity> taskList = new ArrayList<>();
+    private final SimpleDateFormat deadlineFormatter = new SimpleDateFormat("yyyy-MM-dd");
+    private final SimpleDateFormat createDateFormatter = new SimpleDateFormat("yyyy-MM-dd");
 
     public TaskEntity addTask(String name, String description, String createdAt, String deadline) throws ParseException {
 
@@ -42,9 +40,17 @@ public class TaskService {
         return null;
     }
 
+    public ArrayList<TaskEntity> getTaskList(){
+        if(taskList != null){
+
+            return taskList;
+        }
+        return null;
+    }
+
     public TaskEntity updateTask(int id, UpdateTaskDTO body) throws Exception {
         System.out.println(body);
-       var task = getTaskById(id);
+       TaskEntity task = getTaskById(id);
         if(task == null){
             throw new Exception();
         } else {
@@ -54,7 +60,7 @@ public class TaskService {
     }
 
     private TaskEntity toUpdateTask(int id, String name, String description, String deadline) throws ParseException {
-        var task = getTaskById(id);
+        TaskEntity task = getTaskById(id);
 
         if(name!=null){
             task.setName(name);
