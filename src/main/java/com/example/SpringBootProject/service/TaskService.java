@@ -12,9 +12,11 @@ import java.util.ArrayList;
 @Service
 public class TaskService {
     private int taskId = 1;
+    @Getter
     private final ArrayList <TaskEntity> taskList = new ArrayList<>();
     private final SimpleDateFormat deadlineFormatter = new SimpleDateFormat("yyyy-MM-dd");
     private final SimpleDateFormat createDateFormatter = new SimpleDateFormat("yyyy-MM-dd");
+
 
     public TaskEntity addTask(String name, String description, String createdAt, String deadline) throws ParseException {
 
@@ -36,14 +38,6 @@ public class TaskService {
             if(task.getId() == id){
                 return task;
             }
-        }
-        return null;
-    }
-
-    public ArrayList<TaskEntity> getTaskList(){
-        if(taskList != null){
-
-            return taskList;
         }
         return null;
     }

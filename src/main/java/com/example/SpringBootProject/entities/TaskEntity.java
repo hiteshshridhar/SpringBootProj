@@ -3,6 +3,8 @@ package com.example.SpringBootProject.entities;
 import lombok.Data;
 
 import java.util.Date;
+
+
 @Data
 public class TaskEntity {
     private int id;
@@ -11,5 +13,4 @@ public class TaskEntity {
     private Date createdAt;
     private Date deadline;
     private boolean status;
-
 }

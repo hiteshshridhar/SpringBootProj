@@ -1,9 +1,9 @@
 package com.example.SpringBootProject.service;
 
-import com.example.SpringBootProject.DTO.notesDTO.NotesDTO;
+
 import com.example.SpringBootProject.entities.NotesEntity;
 import com.example.SpringBootProject.entities.TaskEntity;
-import org.springframework.http.ResponseEntity;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -13,13 +13,14 @@ import java.util.List;
 @Service
 public class NotesService {
     private final TaskService taskService;
-    private HashMap<Integer, TaskNotesHolder> taskNotesHolder = new HashMap<>();
+    private final HashMap<Integer, TaskNotesHolder> taskNotesHolder = new HashMap<>();
 
+    @Autowired
     public NotesService(TaskService taskService) {
         this.taskService = taskService;
     }
 
-    class TaskNotesHolder {
+    static class TaskNotesHolder {
         protected int noteId = 1;
         protected List<NotesEntity> notesList = new ArrayList<>();
     }
@@ -43,9 +44,9 @@ public class NotesService {
             return null;
         }
 
-        TaskNotesHolder holder = new TaskNotesHolder();
+        taskNotesHolder.putIfAbsent(taskId, new TaskNotesHolder());
+        TaskNotesHolder holder = taskNotesHolder.get(taskId);
 
-        taskNotesHolder.putIfAbsent(taskId, holder);
 
         NotesEntity newNote = new NotesEntity();
         newNote.setId(holder.noteId);
@@ -54,13 +55,16 @@ public class NotesService {
 
         holder.notesList.add(newNote);
         holder.noteId++;
+        System.out.println(holder.notesList);
         return newNote;
     }
 
+    //Todo:
     public NotesEntity updateNotes() {
         return null;
     }
 
+    //Todo:
     public void deleteNotes() {
     }
 
