@@ -1,8 +1,9 @@
 package com.example.SpringBootProject.service;
 
 
-import com.example.SpringBootProject.entities.NotesEntity;
-import com.example.SpringBootProject.entities.TaskEntity;
+import com.example.SpringBootProject.model.NotesModel;
+import com.example.SpringBootProject.model.TaskEntity;
+import lombok.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,10 +23,10 @@ public class NotesService {
 
     static class TaskNotesHolder {
         protected int noteId = 1;
-        protected List<NotesEntity> notesList = new ArrayList<>();
+        protected List<NotesModel> notesList = new ArrayList<>();
     }
 
-    public List<NotesEntity> getNotesForTask(int taskId) {
+    public List<NotesModel> getNotesForTask(int taskId) {
         TaskEntity task = taskService.getTaskById(taskId);
         if(task == null){
             return null;
@@ -37,7 +38,7 @@ public class NotesService {
         return taskNotesHolder.get(taskId).notesList;
     }
 
-    public NotesEntity addNotesForTask(int taskId, String title, String description) {
+    public NotesModel addNotesForTask(int taskId, String title, String description) {
         TaskEntity getTask = taskService.getTaskById(taskId);
 
         if (getTask == null) {
@@ -47,7 +48,7 @@ public class NotesService {
         taskNotesHolder.putIfAbsent(taskId, new TaskNotesHolder());
         TaskNotesHolder holder = taskNotesHolder.get(taskId);
 
-        NotesEntity newNote = new NotesEntity();
+        NotesModel newNote = new NotesModel();
         newNote.setId(holder.noteId);
         newNote.setTitle(title);
         newNote.setDescription(description);
@@ -59,18 +60,27 @@ public class NotesService {
     }
 
     //Todo:
-    public List<NotesEntity> updateNotesForTask(int taskId, String title, String description) {
-        TaskEntity task = taskService.getTaskById(taskId);
+    public NotesModel updateNotesForTask(int taskId, @NonNull Integer nId, String title, String description) {
 
-        List<NotesEntity> note = getNotesForTask(taskId);
+        List<NotesModel> note = getNotesForTask(taskId);
 
-        if(task == null || note == null){
+        if(note == null){
             return  null;
         }
 
-       note.get(0).setTitle("hello hello");
+        for(NotesModel notesModel: note){
+            if(notesModel.getId() == nId){
+                notesModel.setTitle(title);
+                notesModel.setDescription(description);
+                return notesModel;
+            }
+        }
 
-       return note;
+
+        TaskNotesHolder notesHolder = taskNotesHolder.get(taskId);
+        NotesModel notesModel = notesHolder.notesList.get(nId);
+
+       return notesModel;
     }
 
     //Todo:

@@ -3,7 +3,7 @@ package com.example.SpringBootProject.controller;
 import com.example.SpringBootProject.DTO.notesDTO.NotesDTO;
 import com.example.SpringBootProject.DTO.notesDTO.NotesResponseDTO;
 import com.example.SpringBootProject.DTO.notesDTO.UpdateNotesDTO;
-import com.example.SpringBootProject.entities.NotesEntity;
+import com.example.SpringBootProject.model.NotesModel;
 import com.example.SpringBootProject.service.NotesService;
 import com.example.SpringBootProject.service.TaskService;
 import org.springframework.http.ResponseEntity;
@@ -23,7 +23,7 @@ public class NotesController {
     }
 
     @GetMapping("")
-    public ResponseEntity<List<NotesEntity>>  getAllNotes(@PathVariable("taskId") Integer taskId ){
+    public ResponseEntity<List<NotesModel>>  getAllNotes(@PathVariable("taskId") Integer taskId ){
         var notes = notesService.getNotesForTask(taskId);
         return ResponseEntity.ok(notes);
     }
@@ -38,11 +38,11 @@ public class NotesController {
 
 
     @PutMapping("/{id}")
-    public ResponseEntity<List<NotesEntity>> updateNotesForTask(
+    public ResponseEntity<NotesModel> updateNotesForTask(
             @PathVariable("taskId") Integer taskId,
             @PathVariable("id") Integer id,
             @RequestBody UpdateNotesDTO body) throws Exception{
-        var note = notesService.updateNotesForTask(taskId, body.getTitle(), body.getDescription());
+        var note = notesService.updateNotesForTask(taskId, id, body.getTitle(), body.getDescription());
         if(note == null){
             return ResponseEntity.notFound().build();
         }

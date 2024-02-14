@@ -1,7 +1,7 @@
 package com.example.SpringBootProject.service;
 
 import com.example.SpringBootProject.DTO.taskDTO.UpdateTaskDTO;
-import com.example.SpringBootProject.entities.TaskEntity;
+import com.example.SpringBootProject.model.TaskEntity;
 import lombok.Getter;
 import lombok.NonNull;
 import org.springframework.stereotype.Service;

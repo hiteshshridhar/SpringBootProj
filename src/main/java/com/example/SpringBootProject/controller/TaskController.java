@@ -4,7 +4,7 @@ import com.example.SpringBootProject.DTO.errorDTO.ErrorResponseDTO;
 import com.example.SpringBootProject.DTO.taskDTO.TaskDTO;
 import com.example.SpringBootProject.DTO.taskDTO.TaskResponseDTO;
 import com.example.SpringBootProject.DTO.taskDTO.UpdateTaskDTO;
-import com.example.SpringBootProject.entities.TaskEntity;
+import com.example.SpringBootProject.model.TaskEntity;
 import com.example.SpringBootProject.service.NotesService;
 import com.example.SpringBootProject.service.TaskService;
 import org.modelmapper.ModelMapper;

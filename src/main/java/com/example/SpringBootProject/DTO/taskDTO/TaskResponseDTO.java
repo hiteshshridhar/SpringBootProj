@@ -1,6 +1,6 @@
 package com.example.SpringBootProject.DTO.taskDTO;
 
-import com.example.SpringBootProject.entities.NotesEntity;
+import com.example.SpringBootProject.model.NotesModel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -16,5 +16,5 @@ public class TaskResponseDTO {
     private boolean status;
     private String deadline;
     private String createdAt;
-    private List<NotesEntity> notes;
+    private List<NotesModel> notes;
 }
