@@ -2,6 +2,7 @@ package com.example.SpringBootProject.controller;
 
 import com.example.SpringBootProject.DTO.notesDTO.NotesDTO;
 import com.example.SpringBootProject.DTO.notesDTO.NotesResponseDTO;
+import com.example.SpringBootProject.DTO.notesDTO.UpdateNotesDTO;
 import com.example.SpringBootProject.entities.NotesEntity;
 import com.example.SpringBootProject.service.NotesService;
 import com.example.SpringBootProject.service.TaskService;
@@ -33,5 +34,18 @@ public class NotesController {
             @RequestBody NotesDTO notesDTO) throws ParseException {
         var note = notesService.addNotesForTask(taskId, notesDTO.getTitle(), notesDTO.getDescription());
         return ResponseEntity.ok(new NotesResponseDTO(taskId,note));
+    }
+
+
+    @PutMapping("/{id}")
+    public ResponseEntity<List<NotesEntity>> updateNotesForTask(
+            @PathVariable("taskId") Integer taskId,
+            @PathVariable("id") Integer id,
+            @RequestBody UpdateNotesDTO body) throws Exception{
+        var note = notesService.updateNotesForTask(taskId, body.getTitle(), body.getDescription());
+        if(note == null){
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(note);
     }
 }

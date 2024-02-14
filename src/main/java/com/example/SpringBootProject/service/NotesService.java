@@ -13,7 +13,7 @@ import java.util.List;
 @Service
 public class NotesService {
     private final TaskService taskService;
-    private final HashMap<Integer, TaskNotesHolder> taskNotesHolder = new HashMap<>();
+    private final static HashMap<Integer, TaskNotesHolder> taskNotesHolder = new HashMap<>();
 
     @Autowired
     public NotesService(TaskService taskService) {
@@ -47,7 +47,6 @@ public class NotesService {
         taskNotesHolder.putIfAbsent(taskId, new TaskNotesHolder());
         TaskNotesHolder holder = taskNotesHolder.get(taskId);
 
-
         NotesEntity newNote = new NotesEntity();
         newNote.setId(holder.noteId);
         newNote.setTitle(title);
@@ -60,8 +59,18 @@ public class NotesService {
     }
 
     //Todo:
-    public NotesEntity updateNotes() {
-        return null;
+    public List<NotesEntity> updateNotesForTask(int taskId, String title, String description) {
+        TaskEntity task = taskService.getTaskById(taskId);
+
+        List<NotesEntity> note = getNotesForTask(taskId);
+
+        if(task == null || note == null){
+            return  null;
+        }
+
+       note.get(0).setTitle("hello hello");
+
+       return note;
     }
 
     //Todo:

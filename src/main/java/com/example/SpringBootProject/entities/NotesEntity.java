@@ -1,5 +1,6 @@
 package com.example.SpringBootProject.entities;
 
+import lombok.Builder;
 import lombok.Data;
 
 @Data

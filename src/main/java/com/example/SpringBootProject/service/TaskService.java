@@ -3,6 +3,7 @@ package com.example.SpringBootProject.service;
 import com.example.SpringBootProject.DTO.taskDTO.UpdateTaskDTO;
 import com.example.SpringBootProject.entities.TaskEntity;
 import lombok.Getter;
+import lombok.NonNull;
 import org.springframework.stereotype.Service;
 
 import java.text.ParseException;
@@ -18,7 +19,7 @@ public class TaskService {
     private final SimpleDateFormat createDateFormatter = new SimpleDateFormat("yyyy-MM-dd");
 
 
-    public TaskEntity addTask(String name, String description, String createdAt, String deadline) throws ParseException {
+    public TaskEntity addTask(@NonNull String name, String description, String createdAt, String deadline) throws ParseException {
 
         TaskEntity task = new TaskEntity();
         task.setId(taskId);
@@ -48,12 +49,19 @@ public class TaskService {
         if(task == null){
             throw new Exception();
         } else {
-           task = toUpdateTask(id, body.getName(), body.getDescription(), body.getDeadline() );
+
+            try {
+                task = toUpdateTask(id, body.getName(), body.getDescription(), body.getDeadline() );
+            }
+            catch (Exception exception){
+
+            }
+
         }
         return task;
     }
 
-    private TaskEntity toUpdateTask(int id, String name, String description, String deadline) throws ParseException {
+    private TaskEntity toUpdateTask(@NonNull Integer id, @NonNull String name, String description, String deadline) throws ParseException {
         TaskEntity task = getTaskById(id);
 
         if(name!=null){
