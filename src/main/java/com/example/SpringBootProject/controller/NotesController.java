@@ -5,11 +5,9 @@ import com.example.SpringBootProject.DTO.notesDTO.NotesResponseDTO;
 import com.example.SpringBootProject.DTO.notesDTO.UpdateNotesDTO;
 import com.example.SpringBootProject.model.NotesModel;
 import com.example.SpringBootProject.service.NotesService;
-import com.example.SpringBootProject.service.TaskService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.text.ParseException;
 import java.util.List;
 
 @RestController
@@ -17,7 +15,6 @@ import java.util.List;
 public class NotesController {
 
     private final NotesService notesService;
-    private TaskService taskService;
     public NotesController(NotesService notesService) {
         this.notesService = notesService;
     }
@@ -31,7 +28,7 @@ public class NotesController {
     @PostMapping("")
     public ResponseEntity<NotesResponseDTO> addNoteForTask(
             @PathVariable("taskId") Integer taskId,
-            @RequestBody NotesDTO notesDTO) throws ParseException {
+            @RequestBody NotesDTO notesDTO) {
         var note = notesService.addNotesForTask(taskId, notesDTO.getTitle(), notesDTO.getDescription());
         return ResponseEntity.ok(new NotesResponseDTO(taskId,note));
     }
@@ -48,4 +45,17 @@ public class NotesController {
         }
         return ResponseEntity.ok(note);
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<NotesModel> deleteNoteForTask(@PathVariable("taskId") Integer taskId,
+                                  @PathVariable("id")Integer id) {
+        try{
+            NotesModel note = notesService.deleteNotes(taskId, id);
+            return ResponseEntity.ok(note);
+        } catch (Exception e){
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+
+    }
+
 }

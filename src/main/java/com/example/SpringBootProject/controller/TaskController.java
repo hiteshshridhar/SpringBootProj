@@ -4,7 +4,7 @@ import com.example.SpringBootProject.DTO.errorDTO.ErrorResponseDTO;
 import com.example.SpringBootProject.DTO.taskDTO.TaskDTO;
 import com.example.SpringBootProject.DTO.taskDTO.TaskResponseDTO;
 import com.example.SpringBootProject.DTO.taskDTO.UpdateTaskDTO;
-import com.example.SpringBootProject.model.TaskEntity;
+import com.example.SpringBootProject.model.TaskModel;
 import com.example.SpringBootProject.service.NotesService;
 import com.example.SpringBootProject.service.TaskService;
 import org.modelmapper.ModelMapper;
@@ -32,7 +32,7 @@ public class TaskController {
 
 
     @GetMapping("")
-    public ResponseEntity <List<TaskEntity>> getTasks(){
+    public ResponseEntity <List<TaskModel>> getTasks(){
         var task = taskService.getTaskList();
         return ResponseEntity.ok(task);
     }
@@ -50,13 +50,13 @@ public class TaskController {
     }
 
     @PostMapping("")
-    public ResponseEntity<TaskEntity> addTask(@RequestBody TaskDTO body) throws ParseException {
+    public ResponseEntity<TaskModel> addTask(@RequestBody TaskDTO body) throws ParseException {
         var task = taskService.addTask(body.getName(), body.getDescription(), body.getDeadline(), body.getCreatedAt());
         return ResponseEntity.ok(task);
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<TaskEntity> updateTask(@PathVariable Integer id, @RequestBody UpdateTaskDTO body) throws Exception {
+    public ResponseEntity<TaskModel> updateTask(@PathVariable Integer id, @RequestBody UpdateTaskDTO body) throws Exception {
         var task = taskService.updateTask(id, body);
         if( task == null){
             return ResponseEntity.notFound().build();

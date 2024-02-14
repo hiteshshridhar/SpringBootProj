@@ -1,7 +1,7 @@
 package com.example.SpringBootProject.service;
 
 import com.example.SpringBootProject.DTO.taskDTO.UpdateTaskDTO;
-import com.example.SpringBootProject.model.TaskEntity;
+import com.example.SpringBootProject.model.TaskModel;
 import lombok.Getter;
 import lombok.NonNull;
 import org.springframework.stereotype.Service;
@@ -14,14 +14,14 @@ import java.util.ArrayList;
 public class TaskService {
     private int taskId = 1;
     @Getter
-    private final ArrayList <TaskEntity> taskList = new ArrayList<>();
+    private final ArrayList <TaskModel> taskList = new ArrayList<>();
     private final SimpleDateFormat deadlineFormatter = new SimpleDateFormat("yyyy-MM-dd");
     private final SimpleDateFormat createDateFormatter = new SimpleDateFormat("yyyy-MM-dd");
 
 
-    public TaskEntity addTask(@NonNull String name, String description, String createdAt, String deadline) throws ParseException {
+    public TaskModel addTask(@NonNull String name, String description, String createdAt, String deadline) throws ParseException {
 
-        TaskEntity task = new TaskEntity();
+        TaskModel task = new TaskModel();
         task.setId(taskId);
         task.setName(name);
         task.setDescription(description);
@@ -34,8 +34,8 @@ public class TaskService {
         return  task;
     }
 
-    public TaskEntity getTaskById(int id){
-        for(TaskEntity task : taskList){
+    public TaskModel getTaskById(int id){
+        for(TaskModel task : taskList){
             if(task.getId() == id){
                 return task;
             }
@@ -43,30 +43,21 @@ public class TaskService {
         return null;
     }
 
-    public TaskEntity updateTask(int id, UpdateTaskDTO body) throws Exception {
+    public TaskModel updateTask(int id, UpdateTaskDTO body) throws Exception {
         System.out.println(body);
-       TaskEntity task = getTaskById(id);
+       TaskModel task = getTaskById(id);
         if(task == null){
             throw new Exception();
-        } else {
-
-            try {
-                task = toUpdateTask(id, body.getName(), body.getDescription(), body.getDeadline() );
-            }
-            catch (Exception exception){
-
-            }
-
         }
+        task = toUpdateTask(id, body.getName(), body.getDescription(), body.getDeadline() );
         return task;
     }
 
-    private TaskEntity toUpdateTask(@NonNull Integer id, @NonNull String name, String description, String deadline) throws ParseException {
-        TaskEntity task = getTaskById(id);
+    private TaskModel toUpdateTask(@NonNull Integer id, String name, String description, String deadline) throws ParseException {
+        TaskModel task = getTaskById(id);
 
-        if(name!=null){
-            task.setName(name);
-        }
+
+        if(name != null){task.setName(name);}
 
         if(description != null){
             task.setDescription(description);

@@ -2,7 +2,7 @@ package com.example.SpringBootProject.service;
 
 
 import com.example.SpringBootProject.model.NotesModel;
-import com.example.SpringBootProject.model.TaskEntity;
+import com.example.SpringBootProject.model.TaskModel;
 import lombok.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,7 +27,7 @@ public class NotesService {
     }
 
     public List<NotesModel> getNotesForTask(int taskId) {
-        TaskEntity task = taskService.getTaskById(taskId);
+        TaskModel task = taskService.getTaskById(taskId);
         if(task == null){
             return null;
         }
@@ -39,7 +39,7 @@ public class NotesService {
     }
 
     public NotesModel addNotesForTask(int taskId, String title, String description) {
-        TaskEntity getTask = taskService.getTaskById(taskId);
+        TaskModel getTask = taskService.getTaskById(taskId);
 
         if (getTask == null) {
             return null;
@@ -55,36 +55,50 @@ public class NotesService {
 
         holder.notesList.add(newNote);
         holder.noteId++;
-        System.out.println(holder.notesList);
+        //System.out.println(holder.notesList);
         return newNote;
     }
 
     //Todo:
-    public NotesModel updateNotesForTask(int taskId, @NonNull Integer nId, String title, String description) {
+    public NotesModel updateNotesForTask(int taskId, @NonNull Integer nId, String title, String description) throws Exception {
 
         List<NotesModel> note = getNotesForTask(taskId);
 
-        if(note == null){
-            return  null;
-        }
-
-        for(NotesModel notesModel: note){
-            if(notesModel.getId() == nId){
-                notesModel.setTitle(title);
-                notesModel.setDescription(description);
-                return notesModel;
+        for (NotesModel notesModel : note) {
+            if (notesModel == null) {
+                return null;
             }
-        }
 
+            try {
+                    if (notesModel.getId() == nId) {
+                        notesModel.setTitle(title);
+                        notesModel.setDescription(description);
+                        return notesModel;
+                    }
+                } catch (ArrayIndexOutOfBoundsException exception) {
+                    throw new Exception(exception);
+                }
 
-        TaskNotesHolder notesHolder = taskNotesHolder.get(taskId);
-        NotesModel notesModel = notesHolder.notesList.get(nId);
+            }
+        return null;
 
-       return notesModel;
     }
 
-    //Todo:
-    public void deleteNotes() {
+    public NotesModel deleteNotes(Integer taskId, Integer delNoteId) {
+        List<NotesModel> notes = getNotesForTask(taskId);
+        for (NotesModel notesModel : new ArrayList<>(notes) ){
+                try{
+                    if(notesModel.getId() == delNoteId){
+
+                         notes.remove(notesModel.getId()-1);
+                        return notesModel;
+                    }
+                } catch (Exception e){
+                    return notesModel;
+                }
+            }
+
+        return null;
     }
 
 
