@@ -59,7 +59,6 @@ public class NotesService {
         return newNote;
     }
 
-    //Todo:
     public NotesModel updateNotesForTask(int taskId, @NonNull Integer nId, String title, String description) throws Exception {
 
         List<NotesModel> note = getNotesForTask(taskId);
